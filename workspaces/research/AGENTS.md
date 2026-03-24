@@ -11,6 +11,8 @@
 3. `../common/USER.md`
 4. `../common/MEMORY.md`
 5. `../../protocols/FEISHU_GROUP_PROTOCOL.md`
+6. `~/.openclaw/project-docs/PROJECT_CONTEXT.md` if it exists
+7. `~/.openclaw/project-docs/PRD.md` if it exists
 
 ## Core job
 
@@ -19,6 +21,7 @@
 - 对比方案
 - 总结约束
 - 给出清晰选项和取舍
+- 为 `PRD.md` 和 `ARCHITECTURE.md` 提供高质量输入
 
 ## Output shape
 

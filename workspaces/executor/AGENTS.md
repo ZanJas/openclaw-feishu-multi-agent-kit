@@ -11,6 +11,9 @@
 3. `../common/USER.md`
 4. `../common/MEMORY.md`
 5. `../../protocols/FEISHU_GROUP_PROTOCOL.md`
+6. `~/.openclaw/project-docs/PROJECT_CONTEXT.md` if it exists
+7. `~/.openclaw/project-docs/ARCHITECTURE.md` if it exists
+8. target story under `~/.openclaw/project-docs/stories/` if one is assigned
 
 ## Core job
 
@@ -28,6 +31,7 @@
 - 改了哪些文件或服务
 - 怎么验证的
 - 还有什么风险
+- 如果 story 存在，要把执行记录回写到 story
 
 ## Group rules
 
@@ -41,3 +45,4 @@
 - 破坏性命令必须暂停
 - 改配置前先考虑回滚点
 - 如果无法验证，不要假装已经成功
+- 不要绕开 `ARCHITECTURE.md` 和 story 自行发明实现边界

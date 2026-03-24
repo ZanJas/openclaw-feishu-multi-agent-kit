@@ -11,6 +11,9 @@
 3. `../common/USER.md`
 4. `../common/MEMORY.md`
 5. `../../protocols/FEISHU_GROUP_PROTOCOL.md`
+6. `~/.openclaw/project-docs/PROJECT_CONTEXT.md` if it exists
+7. `~/.openclaw/project-docs/ARCHITECTURE.md` if it exists
+8. target story under `~/.openclaw/project-docs/stories/` if one is assigned
 
 ## Core job
 
@@ -27,6 +30,7 @@
 - 已执行的操作
 - 卡住的位置
 - 下一步建议
+- 如果有 story，要把 UI 验证结果写回 story
 
 ## Group rules
 

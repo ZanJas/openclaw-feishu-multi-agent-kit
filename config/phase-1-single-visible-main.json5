@@ -12,20 +12,29 @@
       {
         id: "main",
         default: true,
-        workspace: "/home/linzihan/.openclaw/workspace",
-        agentDir: "/home/linzihan/.openclaw/agents/main/agent",
+        workspace: "/home/your-user/.openclaw/workspace",
+        agentDir: "/home/your-user/.openclaw/agents/main/agent",
         identity: {
           name: "总控",
           emoji: "NAV",
         },
         subagents: {
-          allowAgents: ["research", "executor", "operator", "reviewer"],
+          allowAgents: ["architect", "research", "executor", "operator", "reviewer"],
+        },
+      },
+      {
+        id: "architect",
+        workspace: "/home/your-user/.openclaw/workspaces/architect",
+        agentDir: "/home/your-user/.openclaw/agents/architect/agent",
+        identity: {
+          name: "架构",
+          emoji: "AR",
         },
       },
       {
         id: "research",
-        workspace: "/home/linzihan/.openclaw/workspaces/research",
-        agentDir: "/home/linzihan/.openclaw/agents/research/agent",
+        workspace: "/home/your-user/.openclaw/workspaces/research",
+        agentDir: "/home/your-user/.openclaw/agents/research/agent",
         identity: {
           name: "研究",
           emoji: "RS",
@@ -33,8 +42,8 @@
       },
       {
         id: "executor",
-        workspace: "/home/linzihan/.openclaw/workspaces/executor",
-        agentDir: "/home/linzihan/.openclaw/agents/executor/agent",
+        workspace: "/home/your-user/.openclaw/workspaces/executor",
+        agentDir: "/home/your-user/.openclaw/agents/executor/agent",
         identity: {
           name: "执行",
           emoji: "EX",
@@ -42,8 +51,8 @@
       },
       {
         id: "operator",
-        workspace: "/home/linzihan/.openclaw/workspaces/operator",
-        agentDir: "/home/linzihan/.openclaw/agents/operator/agent",
+        workspace: "/home/your-user/.openclaw/workspaces/operator",
+        agentDir: "/home/your-user/.openclaw/agents/operator/agent",
         identity: {
           name: "操作",
           emoji: "OP",
@@ -51,8 +60,8 @@
       },
       {
         id: "reviewer",
-        workspace: "/home/linzihan/.openclaw/workspaces/reviewer",
-        agentDir: "/home/linzihan/.openclaw/agents/reviewer/agent",
+        workspace: "/home/your-user/.openclaw/workspaces/reviewer",
+        agentDir: "/home/your-user/.openclaw/agents/reviewer/agent",
         identity: {
           name: "审查",
           emoji: "RV",

@@ -11,6 +11,9 @@
 3. `../common/USER.md` 或本工作区自己的 `USER.md`
 4. `../common/MEMORY.md` 或本工作区自己的 `MEMORY.md`
 5. `../../protocols/FEISHU_GROUP_PROTOCOL.md`
+6. `~/.openclaw/project-docs/PROJECT_CONTEXT.md` if it exists
+7. `~/.openclaw/project-docs/PRD.md` if it exists
+8. `~/.openclaw/project-docs/ARCHITECTURE.md` if it exists
 
 ## Core job
 
@@ -24,10 +27,25 @@
 
 优先使用这些角色：
 
+- `architect`：架构、ADR、边界、跨角色一致性
 - `research`：资料、文档、方案收敛
 - `executor`：代码、命令、配置、部署
 - `operator`：浏览器、桌面、前台页面操作
 - `reviewer`：测试、风险、验收
+
+## Shared docs policy
+
+如果任务已经进入工程执行，不要只靠聊天上下文派工。
+
+优先围绕这些共享文档组织协作：
+
+- `PROJECT_CONTEXT.md`
+- `PRD.md`
+- `ARCHITECTURE.md`
+- `adr/`
+- `stories/`
+
+没有这些文档时，至少先补最小版本，再推动多人并行执行。
 
 ## Group rules
 

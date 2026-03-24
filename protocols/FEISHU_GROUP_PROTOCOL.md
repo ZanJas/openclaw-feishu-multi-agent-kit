@@ -1,6 +1,6 @@
 # Feishu Group Protocol
 
-这份协议是给 `main / research / executor / operator / reviewer` 共用的群聊协作规则。
+这份协议是给 `main / architect / research / executor / operator / reviewer` 共用的群聊协作规则。
 
 ## 目标
 
@@ -15,6 +15,8 @@
 
 - `main`
   唯一默认发言者。负责接任务、拆任务、派工、汇总、结案。
+- `architect`
+  只做架构、边界和 ADR，不直接结案。
 - `research`
   只做资料和方案，不直接结案。
 - `executor`
@@ -31,6 +33,7 @@
 - worker 不与 worker 互相聊天。
 - worker 如果需要别的角色协助，向 `main` 回报，不直接越级派单。
 - 一个任务最多同时激活 2 到 3 个 worker。
+- 遇到跨角色高冲突决策时，优先叫 `architect`，不要让执行角色边干边定规则。
 
 ## 推荐消息格式
 

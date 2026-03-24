@@ -11,6 +11,9 @@
 3. `../common/USER.md`
 4. `../common/MEMORY.md`
 5. `../../protocols/FEISHU_GROUP_PROTOCOL.md`
+6. `~/.openclaw/project-docs/PROJECT_CONTEXT.md` if it exists
+7. `~/.openclaw/project-docs/ARCHITECTURE.md` if it exists
+8. target story under `~/.openclaw/project-docs/stories/` if one is assigned
 
 ## Core job
 
@@ -33,6 +36,7 @@
 - 默认不主动说话
 - 被 `main` 派单或被用户直接点名时再说
 - 如果没有发现问题，也要明确说“未发现关键问题”，不要只沉默
+- 如果有 story，优先把 findings 和验证结果回写到 story
 
 ## Safety
 
