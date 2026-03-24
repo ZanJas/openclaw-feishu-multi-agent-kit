@@ -1,0 +1,66 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="page" x1="96" y1="64" x2="1160" y2="696" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5F9FF"/>
+      <stop offset="1" stop-color="#ECF4FF"/>
+    </linearGradient>
+    <linearGradient id="mainCard" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#1E5EFF"/>
+      <stop offset="1" stop-color="#19B4FF"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="20" y="20" width="1240" height="720" rx="36" fill="url(#page)"/>
+  <text x="76" y="98" fill="#0F1D35" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="800">OpenClaw + Feishu multi-agent system overview</text>
+  <text x="76" y="134" fill="#59708F" font-family="Segoe UI, Arial, sans-serif" font-size="21">A stable default pattern: one public coordinator, multiple internal specialists, one shared project memory layer.</text>
+
+  <rect x="76" y="212" width="220" height="108" rx="28" fill="#FFFFFF" stroke="#D7E3F3" stroke-width="2"/>
+  <text x="186" y="252" text-anchor="middle" fill="#365B88" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">PUBLIC ENTRY</text>
+  <text x="186" y="288" text-anchor="middle" fill="#0F1D35" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="800">Feishu group</text>
+
+  <rect x="386" y="180" width="254" height="172" rx="34" fill="url(#mainCard)"/>
+  <text x="513" y="226" text-anchor="middle" fill="#D8F5FF" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="800">DEFAULT PUBLIC SPEAKER</text>
+  <text x="513" y="280" text-anchor="middle" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="800">main</text>
+  <text x="513" y="320" text-anchor="middle" fill="#DFF3FF" font-family="Segoe UI, Arial, sans-serif" font-size="19">dispatches, coordinates, merges, replies</text>
+
+  <line x1="296" y1="266" x2="386" y2="266" stroke="#8DB3E8" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="760" y="176" width="444" height="352" rx="30" fill="#FFFFFF" stroke="#D7E3F3" stroke-width="2"/>
+  <text x="796" y="220" fill="#365B88" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">INTERNAL SPECIALISTS</text>
+
+  <rect x="796" y="246" width="168" height="86" rx="24" fill="#EAF4FF"/>
+  <rect x="980" y="246" width="168" height="86" rx="24" fill="#EAFBF4"/>
+  <rect x="796" y="348" width="168" height="86" rx="24" fill="#FFF5E8"/>
+  <rect x="980" y="348" width="168" height="86" rx="24" fill="#F4EDFF"/>
+  <rect x="888" y="450" width="168" height="86" rx="24" fill="#FFF0EB"/>
+
+  <text x="880" y="281" text-anchor="middle" fill="#174B8A" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">research</text>
+  <text x="1064" y="281" text-anchor="middle" fill="#1F7A53" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">architect</text>
+  <text x="880" y="383" text-anchor="middle" fill="#A86614" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">executor</text>
+  <text x="1064" y="383" text-anchor="middle" fill="#6D39A9" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">operator</text>
+  <text x="972" y="485" text-anchor="middle" fill="#B24B3E" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">reviewer</text>
+
+  <line x1="640" y1="266" x2="760" y2="266" stroke="#8DB3E8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="640" y1="278" x2="760" y2="430" stroke="#8DB3E8" stroke-width="4" stroke-linecap="round" stroke-opacity="0.7"/>
+  <line x1="640" y1="254" x2="760" y2="378" stroke="#8DB3E8" stroke-width="4" stroke-linecap="round" stroke-opacity="0.7"/>
+
+  <rect x="146" y="454" width="994" height="170" rx="32" fill="#0F1D35"/>
+  <text x="190" y="500" fill="#A7C4E7" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700">SHARED PROJECT DOCS</text>
+  <text x="190" y="544" fill="white" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800">PROJECT_CONTEXT  ·  PRD  ·  ARCHITECTURE  ·  ADR  ·  EPICS  ·  STORIES</text>
+  <text x="190" y="590" fill="#BED3EE" font-family="Segoe UI, Arial, sans-serif" font-size="21">This layer keeps research, design, implementation, operation, and review aligned around the same source of truth.</text>
+
+  <line x1="513" y1="352" x2="513" y2="454" stroke="#59B4FF" stroke-width="6" stroke-linecap="round"/>
+  <line x1="878" y1="528" x2="878" y2="454" stroke="#59B4FF" stroke-width="6" stroke-linecap="round"/>
+  <line x1="972" y1="536" x2="972" y2="454" stroke="#59B4FF" stroke-width="6" stroke-linecap="round"/>
+  <line x1="1064" y1="434" x2="1064" y2="454" stroke="#59B4FF" stroke-width="6" stroke-linecap="round"/>
+  <line x1="880" y1="434" x2="880" y2="454" stroke="#59B4FF" stroke-width="6" stroke-linecap="round"/>
+
+  <rect x="86" y="656" width="228" height="48" rx="24" fill="#DDEBFF"/>
+  <rect x="332" y="656" width="228" height="48" rx="24" fill="#DBF6E8"/>
+  <rect x="578" y="656" width="228" height="48" rx="24" fill="#FFF0D8"/>
+  <rect x="824" y="656" width="360" height="48" rx="24" fill="#E8EEFF"/>
+  <text x="200" y="686" text-anchor="middle" fill="#174B8A" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Phase 1: main visible</text>
+  <text x="446" y="686" text-anchor="middle" fill="#1F7A53" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Phase 2: selected specialists visible</text>
+  <text x="692" y="686" text-anchor="middle" fill="#A86614" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">Explicit dispatch</text>
+  <text x="1004" y="686" text-anchor="middle" fill="#4A5D8E" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700">maxPingPongTurns = 0</text>
+</svg>

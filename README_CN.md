@@ -15,6 +15,9 @@
     <img alt="Channel" src="https://img.shields.io/badge/channel-Feishu-00b96b" />
     <img alt="Pattern" src="https://img.shields.io/badge/pattern-多角色协作-f59e0b" />
   </p>
+  <p>
+    <img alt="OpenClaw Feishu Multi-Agent Kit cover" src="assets/cover.svg" />
+  </p>
 </div>
 
 > 先把一个对外 bot 做稳，再把真正有价值的专业角色放到它后面。
@@ -52,28 +55,7 @@
 
 ## 架构图
 
-```mermaid
-flowchart LR
-    U["飞书群聊"] --> M["main<br/>唯一默认发言者"]
-    M --> A["architect"]
-    M --> R["research"]
-    M --> E["executor"]
-    M --> O["operator"]
-    M --> V["reviewer"]
-
-    D["共享文档链<br/>PROJECT_CONTEXT / PRD / ARCHITECTURE / ADR / stories"] --> A
-    D --> R
-    D --> E
-    D --> O
-    D --> V
-
-    A --> M
-    R --> M
-    E --> M
-    O --> M
-    V --> M
-    M --> U
-```
+![System overview](assets/architecture-overview.svg)
 
 ### 核心设计原则
 

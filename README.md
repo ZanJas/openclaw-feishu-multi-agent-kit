@@ -15,6 +15,9 @@
     <img alt="Channel" src="https://img.shields.io/badge/channel-Feishu-00b96b" />
     <img alt="Model" src="https://img.shields.io/badge/pattern-multi--agent-f59e0b" />
   </p>
+  <p>
+    <img alt="OpenClaw Feishu Multi-Agent Kit cover" src="assets/cover.svg" />
+  </p>
 </div>
 
 > Start with one bot your team can trust. Add specialist agents only where they improve quality.
@@ -52,28 +55,7 @@ This kit is designed to prevent that drift.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    U["Feishu group chat"] --> M["main<br/>visible coordinator"]
-    M --> A["architect"]
-    M --> R["research"]
-    M --> E["executor"]
-    M --> O["operator"]
-    M --> V["reviewer"]
-
-    D["shared project docs<br/>PROJECT_CONTEXT / PRD / ARCHITECTURE / ADR / stories"] --> A
-    D --> R
-    D --> E
-    D --> O
-    D --> V
-
-    A --> M
-    R --> M
-    E --> M
-    O --> M
-    V --> M
-    M --> U
-```
+![System overview](assets/architecture-overview.svg)
 
 ### Core Design Principles
 
