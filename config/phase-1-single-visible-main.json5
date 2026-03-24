@@ -1,0 +1,112 @@
+// Merge this into your existing ~/.openclaw/openclaw.json.
+// Do not replace the whole file.
+//
+// Goal:
+// - one visible Feishu bot: main
+// - multiple internal agents
+// - strict anti-loop defaults
+
+{
+  agents: {
+    list: [
+      {
+        id: "main",
+        default: true,
+        workspace: "/home/linzihan/.openclaw/workspace",
+        agentDir: "/home/linzihan/.openclaw/agents/main/agent",
+        identity: {
+          name: "总控",
+          emoji: "NAV",
+        },
+        subagents: {
+          allowAgents: ["research", "executor", "operator", "reviewer"],
+        },
+      },
+      {
+        id: "research",
+        workspace: "/home/linzihan/.openclaw/workspaces/research",
+        agentDir: "/home/linzihan/.openclaw/agents/research/agent",
+        identity: {
+          name: "研究",
+          emoji: "RS",
+        },
+      },
+      {
+        id: "executor",
+        workspace: "/home/linzihan/.openclaw/workspaces/executor",
+        agentDir: "/home/linzihan/.openclaw/agents/executor/agent",
+        identity: {
+          name: "执行",
+          emoji: "EX",
+        },
+      },
+      {
+        id: "operator",
+        workspace: "/home/linzihan/.openclaw/workspaces/operator",
+        agentDir: "/home/linzihan/.openclaw/agents/operator/agent",
+        identity: {
+          name: "操作",
+          emoji: "OP",
+        },
+      },
+      {
+        id: "reviewer",
+        workspace: "/home/linzihan/.openclaw/workspaces/reviewer",
+        agentDir: "/home/linzihan/.openclaw/agents/reviewer/agent",
+        identity: {
+          name: "审查",
+          emoji: "RV",
+        },
+      },
+    ],
+  },
+
+  session: {
+    dmScope: "per-channel-peer",
+    agentToAgent: {
+      maxPingPongTurns: 0,
+    },
+  },
+
+  bindings: [
+    {
+      agentId: "main",
+      match: {
+        channel: "feishu",
+        accountId: "main",
+        peer: { kind: "group", id: "oc_TEAM_GROUP_ID" },
+      },
+    },
+    {
+      agentId: "main",
+      match: {
+        channel: "feishu",
+        accountId: "main",
+        peer: { kind: "direct", id: "ou_OWNER_OPEN_ID" },
+      },
+    },
+  ],
+
+  channels: {
+    feishu: {
+      enabled: true,
+      dmPolicy: "pairing",
+      groupPolicy: "allowlist",
+      groupAllowFrom: ["oc_TEAM_GROUP_ID"],
+      defaultAccount: "main",
+      accounts: {
+        main: {
+          appId: "cli_your_main_app_id",
+          appSecret: "your_main_app_secret",
+          botName: "OpenClaw 总控",
+        },
+      },
+      groups: {
+        oc_TEAM_GROUP_ID: {
+          requireMention: true,
+          allowFrom: ["ou_OWNER_OPEN_ID"],
+        },
+      },
+    },
+  },
+}

@@ -1,0 +1,77 @@
+// Merge this into your existing ~/.openclaw/openclaw.json after Phase 1 is stable.
+// Do not replace the whole file.
+//
+// Goal:
+// - three visible Feishu bots in one group
+// - main owns orchestration
+// - executor and reviewer only speak when mentioned or dispatched
+
+{
+  bindings: [
+    {
+      agentId: "main",
+      match: {
+        channel: "feishu",
+        accountId: "main",
+        peer: { kind: "group", id: "oc_TEAM_GROUP_ID" },
+      },
+    },
+    {
+      agentId: "executor",
+      match: {
+        channel: "feishu",
+        accountId: "executor",
+        peer: { kind: "group", id: "oc_TEAM_GROUP_ID" },
+      },
+    },
+    {
+      agentId: "reviewer",
+      match: {
+        channel: "feishu",
+        accountId: "reviewer",
+        peer: { kind: "group", id: "oc_TEAM_GROUP_ID" },
+      },
+    },
+    {
+      agentId: "main",
+      match: {
+        channel: "feishu",
+        accountId: "main",
+        peer: { kind: "direct", id: "ou_OWNER_OPEN_ID" },
+      },
+    },
+  ],
+
+  channels: {
+    feishu: {
+      enabled: true,
+      dmPolicy: "pairing",
+      groupPolicy: "allowlist",
+      groupAllowFrom: ["oc_TEAM_GROUP_ID"],
+      defaultAccount: "main",
+      accounts: {
+        main: {
+          appId: "cli_your_main_app_id",
+          appSecret: "your_main_app_secret",
+          botName: "OpenClaw 总控",
+        },
+        executor: {
+          appId: "cli_your_executor_app_id",
+          appSecret: "your_executor_app_secret",
+          botName: "OpenClaw 执行",
+        },
+        reviewer: {
+          appId: "cli_your_reviewer_app_id",
+          appSecret: "your_reviewer_app_secret",
+          botName: "OpenClaw 审查",
+        },
+      },
+      groups: {
+        oc_TEAM_GROUP_ID: {
+          requireMention: true,
+          allowFrom: ["ou_OWNER_OPEN_ID"],
+        },
+      },
+    },
+  },
+}
