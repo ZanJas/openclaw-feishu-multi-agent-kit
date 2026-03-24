@@ -100,6 +100,7 @@
 ├── examples/
 ├── project-docs/
 ├── protocols/
+├── scripts/
 ├── workspaces/
 ├── README.md
 ├── README_CN.md
@@ -109,24 +110,26 @@
 ## 快速开始
 
 1. 准备好 OpenClaw gateway 和 Feishu 通道
-2. 合并 `config/phase-1-single-visible-main.json5` 到你的 `openclaw.json`
-3. 为每个角色创建独立 workspace 和 `agentDir`
-4. 用 `project-docs/templates/` 初始化共享文档
-5. 在飞书群里先只让 `main` 对外
-6. 跑稳以后，再升级到 `phase-2`
+2. 先运行 `bash ./scripts/bootstrap-openclaw-feishu-team.sh --target-root "$HOME/.openclaw"`
+3. 再运行 `bash ./scripts/render-phase1-config.sh --target-root "$HOME/.openclaw"`
+4. 把渲染后的 `phase-1` 配置合并到你的 `openclaw.json`
+5. 用 `project-docs/` 初始化共享文档
+6. 在飞书群里先只让 `main` 对外
+7. 跑稳以后，再升级到 `phase-2`
 
 ## 公开项目下一步建议
 
 如果你打算继续把这个仓库打磨成公共项目，最值得继续补的是：
 
 1. 配置合并脚本
-2. 初始化脚本
-3. `examples/` 下的完整示例
-4. Feishu 路由和角色协作的 smoke test
+2. `examples/` 下更完整的示例
+3. Feishu 路由和角色协作的 smoke test
+4. 项目截图或架构图
 
 ## 相关文档
 
 - [README.md](README.md)
 - [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
+- [scripts/README.md](scripts/README.md)
 - [project-docs/README.md](project-docs/README.md)
 - [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
