@@ -9,6 +9,8 @@ Build a multi-agent OpenClaw setup for Feishu with:
 
 This repository is not a replacement for OpenClaw. It is a reusable starter kit for people who want to run OpenClaw as a small AI team in Feishu instead of a single all-purpose bot.
 
+Chinese version: [README_CN.md](README_CN.md)
+
 ## What This Solves
 
 Most OpenClaw multi-agent experiments hit the same problems:
@@ -115,6 +117,8 @@ More detail: [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
 │   └── phase-2-main-executor-reviewer.json5
 ├── docs/
 │   └── BMAD_TO_OPENCLAW.md
+├── examples/
+│   └── feishu-openclaw-team/
 ├── project-docs/
 │   ├── README.md
 │   └── templates/
@@ -307,9 +311,11 @@ If you want to turn this into a more complete public project, the next most valu
 ## Related Files
 
 - [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
+- [README_CN.md](README_CN.md)
+- [examples/README.md](examples/README.md)
 - [project-docs/README.md](project-docs/README.md)
 - [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
 
 ## License
 
-No project-specific license file has been added yet. Add one before encouraging broad reuse.
+MIT. See [LICENSE](LICENSE).
