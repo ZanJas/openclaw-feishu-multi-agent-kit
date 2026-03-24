@@ -1,241 +1,180 @@
-# OpenClaw Feishu Multi-Agent Kit
+<div align="center">
+  <h1>OpenClaw Feishu Multi-Agent Kit</h1>
+  <p><strong>Turn one OpenClaw bot into a small Feishu-native AI team.</strong></p>
+  <p>One visible coordinator, multiple specialist agents, shared project docs, and a cleaner operating model for real work.</p>
+  <p>
+    <a href="README_CN.md">中文文档</a> ·
+    <a href="docs/BMAD_TO_OPENCLAW.md">BMAD Mapping</a> ·
+    <a href="scripts/README.md">Scripts</a> ·
+    <a href="project-docs/README.md">Project Docs</a>
+  </p>
+  <p>
+    <img alt="License" src="https://img.shields.io/github/license/ZanJas/openclaw-feishu-multi-agent-kit" />
+    <img alt="Stars" src="https://img.shields.io/github/stars/ZanJas/openclaw-feishu-multi-agent-kit?style=social" />
+    <img alt="Runtime" src="https://img.shields.io/badge/runtime-OpenClaw-1f6feb" />
+    <img alt="Channel" src="https://img.shields.io/badge/channel-Feishu-00b96b" />
+    <img alt="Model" src="https://img.shields.io/badge/pattern-multi--agent-f59e0b" />
+  </p>
+</div>
 
-Build a multi-agent OpenClaw setup for Feishu with:
+> Start with one bot your team can trust. Add specialist agents only where they improve quality.
 
-- one visible coordinator bot
-- multiple specialist agents behind it
-- shared project docs to keep agents aligned
-- a practical operating model inspired by BMAD
+This repository is a reusable starter kit for running OpenClaw as a role-based team in Feishu instead of a single all-purpose assistant.
 
-This repository is not a replacement for OpenClaw. It is a reusable starter kit for people who want to run OpenClaw as a small AI team in Feishu instead of a single all-purpose bot.
+It does not replace OpenClaw itself. It gives you:
 
-Chinese version: [README_CN.md](README_CN.md)
+- a multi-agent role layout that is easier to operate in group chat
+- a single visible coordinator pattern that avoids noisy bot swarms
+- shared project docs so agents do not improvise different rules
+- a BMAD-inspired operating layer without dragging in the whole BMAD runtime
 
-## What This Solves
+## Why This Exists
 
-Most OpenClaw multi-agent experiments hit the same problems:
+Most multi-agent OpenClaw experiments break down in predictable ways:
 
-- agents talk over each other
-- roles blur together after a few tasks
-- execution agents invent rules while coding
-- review happens without a shared standard
+- every bot wants to talk
+- roles blur after a few tasks
+- execution starts before architecture is stable
+- review happens without a shared baseline
 - chat history becomes the only source of truth
 
-This kit addresses those problems with two layers:
+This kit is designed to prevent that drift.
 
-- Runtime layer: OpenClaw + Feishu + multi-workspace + multi-agent routing
-- Operating model layer: shared docs, role boundaries, architecture decisions, and story-driven execution
+## At A Glance
 
-## Who This Is For
-
-This project is a good fit if you want to:
-
-- run OpenClaw in Feishu group chats
-- split work across planner, architect, executor, operator, and reviewer roles
-- keep one clean public-facing bot while still using multiple internal agents
-- reuse a repeatable project structure across deployments
-
-This project is not the best fit if you only need:
-
-- a single personal assistant bot
-- free-form multi-bot roleplay with no engineering discipline
-- a desktop automation framework by itself
-
-## Core Idea
-
-Start with one visible bot, not five.
-
-The recommended deployment is:
-
-- `main` is the only default speaker in Feishu
-- `architect`, `research`, `executor`, `operator`, and `reviewer` work behind the scenes
-- shared project documents define the rules before multiple agents start executing
-
-Once that is stable, you can expose selected specialist bots such as `executor` and `reviewer`.
-
-## Roles
-
-| Role | Purpose |
+| Layer | What it gives you |
 | --- | --- |
-| `main` | Coordinator, dispatcher, summarizer, final reply |
-| `architect` | Architecture, boundaries, ADRs, conflict prevention |
-| `research` | Research, documentation, option comparison |
-| `executor` | Code, config, deployment, CLI work |
-| `operator` | Browser, UI, desktop, visible interaction flows |
-| `reviewer` | Validation, code review, regression, risk checks |
+| Runtime | OpenClaw + Feishu + multi-workspace + multi-agent routing |
+| Coordination | One visible `main` agent that dispatches, merges, and replies |
+| Specialists | `architect`, `research`, `executor`, `operator`, `reviewer` |
+| Shared state | `PROJECT_CONTEXT`, `PRD`, `ARCHITECTURE`, ADRs, stories |
+| Delivery model | Phase 1 for stability, Phase 2 for selective visibility |
 
 ## Architecture
 
-### Phase 1
+```mermaid
+flowchart LR
+    U["Feishu group chat"] --> M["main<br/>visible coordinator"]
+    M --> A["architect"]
+    M --> R["research"]
+    M --> E["executor"]
+    M --> O["operator"]
+    M --> V["reviewer"]
 
-Recommended first deployment:
+    D["shared project docs<br/>PROJECT_CONTEXT / PRD / ARCHITECTURE / ADR / stories"] --> A
+    D --> R
+    D --> E
+    D --> O
+    D --> V
 
-- one visible Feishu bot: `main`
-- internal-only workers: `architect`, `research`, `executor`, `operator`, `reviewer`
-- explicit dispatch
-- `maxPingPongTurns = 0`
-
-### Phase 2
-
-Optional upgrade after Phase 1 is stable:
-
-- visible `main`
-- visible `executor`
-- visible `reviewer`
-- `architect`, `research`, and `operator` remain internal
-
-This keeps the group readable while still allowing specialized visible roles when needed.
-
-## BMAD-Inspired Layer
-
-This repo borrows the most useful parts of BMAD without trying to copy its whole runtime model.
-
-What is reused:
-
-- role discipline
-- staged project flow
-- architecture-first conflict prevention
-- ADRs for high-impact decisions
-- story-based execution and review
-
-What is not reused:
-
-- BMAD installer
-- IDE-centric command system
-- party-mode as the main runtime
-
-OpenClaw stays the runtime and channel layer. BMAD contributes the operating model.
-
-More detail: [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
-
-## Repository Layout
-
-```text
-.
-├── config/
-│   ├── phase-1-single-visible-main.json5
-│   └── phase-2-main-executor-reviewer.json5
-├── docs/
-│   └── BMAD_TO_OPENCLAW.md
-├── examples/
-│   └── feishu-openclaw-team/
-├── project-docs/
-│   ├── README.md
-│   └── templates/
-│       ├── PROJECT_CONTEXT.template.md
-│       ├── PRD.template.md
-│       ├── ARCHITECTURE.template.md
-│       ├── adr/
-│       ├── epics/
-│       └── stories/
-├── protocols/
-│   └── FEISHU_GROUP_PROTOCOL.md
-├── scripts/
-│   ├── bootstrap-openclaw-feishu-team.sh
-│   ├── render-phase1-config.sh
-│   └── README.md
-└── workspaces/
-    ├── architect/
-    ├── common/
-    ├── executor/
-    ├── main/
-    ├── operator/
-    ├── research/
-    └── reviewer/
+    A --> M
+    R --> M
+    E --> M
+    O --> M
+    V --> M
+    M --> U
 ```
 
-## Suggested Target Layout
+### Core Design Principles
 
-On the target machine, a practical layout looks like this:
+- `main` is the default public voice
+- specialists work behind the scenes unless there is a strong reason to expose them
+- shared docs come before parallel execution
+- architecture and review are explicit roles, not afterthoughts
+- `maxPingPongTurns = 0` keeps agent chatter under control
 
-```text
-/home/your-user/.openclaw/
-  openclaw.json
-  project-docs/
-    PROJECT_CONTEXT.md
-    PRD.md
-    ARCHITECTURE.md
-    adr/
-    epics/
-    stories/
-  workspace/
-  workspaces/
-    architect/
-    research/
-    executor/
-    operator/
-    reviewer/
-  agents/
-    main/agent/
-    architect/agent/
-    research/agent/
-    executor/agent/
-    operator/agent/
-    reviewer/agent/
+## Team Roles
+
+| Role | Purpose | Typical output |
+| --- | --- | --- |
+| `main` | Coordinator, dispatcher, summarizer, final reply | task split, delegation, user-facing response |
+| `architect` | Boundaries, architecture, ADRs, conflict prevention | design constraints, tradeoffs, ADRs |
+| `research` | Information gathering and option comparison | findings, docs, decision inputs |
+| `executor` | Code, config, CLI, deployment | implementation, patches, config changes |
+| `operator` | Browser, UI, desktop, visible workflows | browser actions, UI verification, ops steps |
+| `reviewer` | Validation, regression, risk control | test results, review findings, release checks |
+
+## Delivery Path
+
+| Phase | What is visible in Feishu | Why start here |
+| --- | --- | --- |
+| Phase 1 | `main` only | Lowest noise, easiest to stabilize |
+| Phase 2 | `main`, optional `executor`, optional `reviewer` | Lets specialists speak publicly only when useful |
+
+Recommended rule: do not start with five visible bots.
+
+## What You Get In This Repo
+
+| Directory | What it contains |
+| --- | --- |
+| [`config/`](config/) | Phase-based config snippets for OpenClaw |
+| [`workspaces/`](workspaces/) | Role templates for each agent workspace |
+| [`project-docs/`](project-docs/) | Shared engineering docs and templates |
+| [`protocols/`](protocols/) | Group-chat operating rules |
+| [`scripts/`](scripts/) | Bootstrap and config rendering helpers |
+| [`examples/`](examples/) | Example docs showing how a real team setup can look |
+
+## 3-Minute Quick Start
+
+### 1. Bootstrap the target layout
+
+```bash
+bash ./scripts/bootstrap-openclaw-feishu-team.sh --target-root "$HOME/.openclaw"
 ```
 
-## Quick Start
+This creates:
 
-### 1. Prepare OpenClaw and Feishu
+- role workspaces
+- agent directories
+- shared `project-docs/`
+- starter files copied from this repository
 
-Make sure you already have:
+### 2. Render a Phase 1 starter config
 
-- a working OpenClaw gateway
-- a working Feishu channel
-- one bot identity that can receive and send messages
+```bash
+bash ./scripts/render-phase1-config.sh --target-root "$HOME/.openclaw"
+```
 
-### 2. Apply Phase 1
+You can also fill Feishu placeholders while rendering:
 
-Merge the relevant parts of:
+```bash
+bash ./scripts/render-phase1-config.sh \
+  --target-root "$HOME/.openclaw" \
+  --group-id "oc_xxx" \
+  --owner-open-id "ou_xxx" \
+  --app-id "cli_xxx" \
+  --app-secret "xxx"
+```
 
-- `config/phase-1-single-visible-main.json5`
+### 3. Merge the generated config into your live OpenClaw config
 
-into your existing `~/.openclaw/openclaw.json`.
+Do not overwrite your full `openclaw.json`.
 
-Do not overwrite your whole file. Only merge the relevant blocks such as:
+Merge only the relevant blocks:
 
 - `agents`
 - `bindings`
 - `session.agentToAgent`
 - `channels.feishu`
 
-If you want a machine-specific starter file first, you can render one with:
+Start with:
 
-```bash
-bash ./scripts/render-phase1-config.sh --target-root "$HOME/.openclaw"
-```
+- [`config/phase-1-single-visible-main.json5`](config/phase-1-single-visible-main.json5)
 
-### 3. Create role workspaces
+Later, upgrade to:
 
-Copy the role templates under `workspaces/` into your OpenClaw installation.
+- [`config/phase-2-main-executor-reviewer.json5`](config/phase-2-main-executor-reviewer.json5)
 
-Each role should have its own:
+### 4. Initialize the shared project docs
 
-- `AGENTS.md`
-- `SOUL.md`
-- `IDENTITY.md`
-- `USER.md`
-- `MEMORY.md`
-- `memory/`
+Copy templates from [`project-docs/templates/`](project-docs/templates/) into your target OpenClaw root:
 
-Never share the same `workspace` or `agentDir` between roles.
-
-To bootstrap the layout automatically:
-
-```bash
-bash ./scripts/bootstrap-openclaw-feishu-team.sh --target-root "$HOME/.openclaw"
-```
-
-### 4. Initialize shared project docs
-
-Copy the templates from `project-docs/templates/` into:
-
-- `~/.openclaw/project-docs/PROJECT_CONTEXT.md`
-- `~/.openclaw/project-docs/PRD.md`
-- `~/.openclaw/project-docs/ARCHITECTURE.md`
-- `~/.openclaw/project-docs/adr/`
-- `~/.openclaw/project-docs/epics/`
-- `~/.openclaw/project-docs/stories/`
+- `PROJECT_CONTEXT.md`
+- `PRD.md`
+- `ARCHITECTURE.md`
+- `adr/`
+- `epics/`
+- `stories/`
 
 At minimum, fill out:
 
@@ -244,24 +183,25 @@ At minimum, fill out:
 
 before asking multiple agents to collaborate on real execution.
 
-### 5. Test the coordinator path
+### 5. Test the coordinator workflow in Feishu
 
-In Feishu:
+Start simple:
 
 - mention `main`
-- ask for a simple task
-- confirm the route is correct
-- then ask for a task that requires delegation
+- give it a small task
+- confirm the routing and final reply feel correct
 
-### 6. Upgrade to Phase 2 if needed
+Then test delegation:
 
-Only after Phase 1 is stable, add more visible bot identities and merge:
+- ask for a task that needs research plus execution
+- verify `main` remains the public voice
+- confirm the result reflects shared docs instead of improvisation
 
-- `config/phase-2-main-executor-reviewer.json5`
+## Shared Project Docs Chain
 
-## Shared Docs Chain
+This repo treats documentation as part of the runtime, not decoration.
 
-The shared docs chain is the most important non-runtime part of this repository:
+Recommended order:
 
 1. `PROJECT_CONTEXT.md`
 2. `PRD.md`
@@ -272,67 +212,75 @@ The shared docs chain is the most important non-runtime part of this repository:
 
 Why it matters:
 
-- `PROJECT_CONTEXT.md` keeps all roles on the same baseline
-- `PRD.md` defines what should be built
-- `ARCHITECTURE.md` defines how it should be built
-- `ADR` records high-impact decisions
-- `story` gives execution and review a shared unit of work
+- `PROJECT_CONTEXT` aligns role boundaries
+- `PRD` defines what should be built
+- `ARCHITECTURE` defines how it should be built
+- `ADR` records important tradeoffs
+- `stories` give execution and review a shared task card
 
-## Feishu Group Rules
+## Example Prompts
 
-The group protocol is intentionally strict:
+Once this kit is installed, the coordinator model can handle prompts like:
 
-- humans normally talk to `main`
-- workers do not free-chat with each other
-- final answers come from `main`
-- specialist bots should require mention
-- agent-to-agent ping-pong should be disabled
+```text
+Research the options first, let architect define the boundary, then let executor implement the safest path.
+```
 
-See: [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
+```text
+Operator should handle the browser flow, then reviewer should check risk before we reply in the group.
+```
 
-## Design Principles
+```text
+Break this feature request into roles and run it as a small team instead of a single bot.
+```
 
-- Routing and identity are different problems
-- One stable coordinator is better than many noisy visible bots
-- Internal collaboration should come before visible multi-bot theatrics
-- Shared docs beat hidden chat memory
-- High-conflict decisions belong in ADRs
-- Every role needs its own workspace and `agentDir`
+## Who This Is For
 
-## Current Scope
+This repo is a strong fit if you want to:
 
-This repository currently provides:
+- run OpenClaw in Feishu group chats
+- keep one clean public-facing bot while still using internal specialists
+- move from chat-only collaboration to reusable engineering assets
+- borrow the good parts of BMAD without adopting the whole stack
 
-- config skeletons
-- role workspace templates
-- shared project doc templates
-- a Feishu group protocol
-- a BMAD-to-OpenClaw operating model
-- bootstrap and config-render scripts
+This repo is a weaker fit if you only need:
 
-This repository does not yet provide:
+- one personal bot with no role separation
+- free-form roleplay without workflow discipline
+- desktop automation by itself
 
-- automated patch/merge scripts for `openclaw.json`
-- a complete deployment script for a fresh VM
+## Repository Map
 
-## Recommended Next Steps
+```text
+.
+├── config/
+├── docs/
+├── examples/
+├── project-docs/
+├── protocols/
+├── scripts/
+├── workspaces/
+├── README.md
+├── README_CN.md
+└── LICENSE
+```
 
-If you want to turn this into a more complete public project, the next most valuable additions are:
+For a deeper breakdown, see:
 
-1. A safe config merge script for `openclaw.json`
-2. One real example project under `examples/`
-3. Validation commands or smoke tests for Feishu routing
-4. Screenshots or diagrams for the public landing page
+- [`docs/BMAD_TO_OPENCLAW.md`](docs/BMAD_TO_OPENCLAW.md)
+- [`scripts/README.md`](scripts/README.md)
+- [`project-docs/README.md`](project-docs/README.md)
+- [`protocols/FEISHU_GROUP_PROTOCOL.md`](protocols/FEISHU_GROUP_PROTOCOL.md)
 
-## Related Files
+## Roadmap Ideas
 
-- [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
-- [README_CN.md](README_CN.md)
-- [examples/README.md](examples/README.md)
-- [project-docs/README.md](project-docs/README.md)
-- [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
-- [scripts/README.md](scripts/README.md)
+Good next improvements for a public version of this kit:
+
+- config merge helpers instead of manual merge steps
+- smoke tests for routing and role visibility
+- screenshots or short diagrams for Feishu flows
+- import-friendly examples for real OpenClaw deployments
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Released under the [MIT License](LICENSE).
