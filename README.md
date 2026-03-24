@@ -1,49 +1,144 @@
 # OpenClaw Feishu Multi-Agent Kit
 
-这是一套给你当前环境准备的飞书多角色骨架，目标不是一次性做成 5 个 bot 满天飞，而是先做稳。
+Build a multi-agent OpenClaw setup for Feishu with:
 
-它分成两层：
+- one visible coordinator bot
+- multiple specialist agents behind it
+- shared project docs to keep agents aligned
+- a practical operating model inspired by BMAD
 
-- 运行时层：OpenClaw + Feishu + 多 workspace + 多 agent
-- 方法层：吸收 BMAD 最适合你的部分，用共享文档链和角色分工减少多 agent 打架
+This repository is not a replacement for OpenClaw. It is a reusable starter kit for people who want to run OpenClaw as a small AI team in Feishu instead of a single all-purpose bot.
 
-适用前提：
+## What This Solves
 
-- 现有 OpenClaw Gateway 已跑通
-- 飞书通道已可收发消息
-- 默认聊天模型继续使用你本地的 `localhost/gpt-5.4`
-- 记忆检索继续使用 `nvidia/nv-embed-v1`
+Most OpenClaw multi-agent experiments hit the same problems:
 
-## 推荐落地顺序
+- agents talk over each other
+- roles blur together after a few tasks
+- execution agents invent rules while coding
+- review happens without a shared standard
+- chat history becomes the only source of truth
+
+This kit addresses those problems with two layers:
+
+- Runtime layer: OpenClaw + Feishu + multi-workspace + multi-agent routing
+- Operating model layer: shared docs, role boundaries, architecture decisions, and story-driven execution
+
+## Who This Is For
+
+This project is a good fit if you want to:
+
+- run OpenClaw in Feishu group chats
+- split work across planner, architect, executor, operator, and reviewer roles
+- keep one clean public-facing bot while still using multiple internal agents
+- reuse a repeatable project structure across deployments
+
+This project is not the best fit if you only need:
+
+- a single personal assistant bot
+- free-form multi-bot roleplay with no engineering discipline
+- a desktop automation framework by itself
+
+## Core Idea
+
+Start with one visible bot, not five.
+
+The recommended deployment is:
+
+- `main` is the only default speaker in Feishu
+- `architect`, `research`, `executor`, `operator`, and `reviewer` work behind the scenes
+- shared project documents define the rules before multiple agents start executing
+
+Once that is stable, you can expose selected specialist bots such as `executor` and `reviewer`.
+
+## Roles
+
+| Role | Purpose |
+| --- | --- |
+| `main` | Coordinator, dispatcher, summarizer, final reply |
+| `architect` | Architecture, boundaries, ADRs, conflict prevention |
+| `research` | Research, documentation, option comparison |
+| `executor` | Code, config, deployment, CLI work |
+| `operator` | Browser, UI, desktop, visible interaction flows |
+| `reviewer` | Validation, code review, regression, risk checks |
+
+## Architecture
 
 ### Phase 1
 
-一个可见 bot，多个内部 agent。
+Recommended first deployment:
 
-- 飞书群里只有 `main` 对外说话
-- `architect / research / executor / operator / reviewer` 只在内部协作
-- 这是最稳的版本，先把任务拆解和协作跑通
+- one visible Feishu bot: `main`
+- internal-only workers: `architect`, `research`, `executor`, `operator`, `reviewer`
+- explicit dispatch
+- `maxPingPongTurns = 0`
 
 ### Phase 2
 
-三个可见 bot。
+Optional upgrade after Phase 1 is stable:
 
-- `main`
-- `executor`
-- `reviewer`
+- visible `main`
+- visible `executor`
+- visible `reviewer`
+- `architect`, `research`, and `operator` remain internal
 
-`architect`、`research` 和 `operator` 继续做内部角色，不建议一开始也放进群里。
+This keeps the group readable while still allowing specialized visible roles when needed.
 
-## 这套包里有什么
+## BMAD-Inspired Layer
 
-- `config/phase-1-single-visible-main.json5`
-- `config/phase-2-main-executor-reviewer.json5`
-- `protocols/FEISHU_GROUP_PROTOCOL.md`
-- `workspaces/` 下六个角色的模板文件
-- `project-docs/` 下 BMAD 风格的共享文档模板
-- `docs/BMAD_TO_OPENCLAW.md`
+This repo borrows the most useful parts of BMAD without trying to copy its whole runtime model.
 
-## 你在目标机器上建议的目录布局
+What is reused:
+
+- role discipline
+- staged project flow
+- architecture-first conflict prevention
+- ADRs for high-impact decisions
+- story-based execution and review
+
+What is not reused:
+
+- BMAD installer
+- IDE-centric command system
+- party-mode as the main runtime
+
+OpenClaw stays the runtime and channel layer. BMAD contributes the operating model.
+
+More detail: [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
+
+## Repository Layout
+
+```text
+.
+├── config/
+│   ├── phase-1-single-visible-main.json5
+│   └── phase-2-main-executor-reviewer.json5
+├── docs/
+│   └── BMAD_TO_OPENCLAW.md
+├── project-docs/
+│   ├── README.md
+│   └── templates/
+│       ├── PROJECT_CONTEXT.template.md
+│       ├── PRD.template.md
+│       ├── ARCHITECTURE.template.md
+│       ├── adr/
+│       ├── epics/
+│       └── stories/
+├── protocols/
+│   └── FEISHU_GROUP_PROTOCOL.md
+└── workspaces/
+    ├── architect/
+    ├── common/
+    ├── executor/
+    ├── main/
+    ├── operator/
+    ├── research/
+    └── reviewer/
+```
+
+## Suggested Target Layout
+
+On the target machine, a practical layout looks like this:
 
 ```text
 /home/your-user/.openclaw/
@@ -55,7 +150,7 @@
     adr/
     epics/
     stories/
-  workspace/                  # 保留你当前 main 的工作区
+  workspace/
   workspaces/
     architect/
     research/
@@ -71,40 +166,36 @@
     reviewer/agent/
 ```
 
-说明：
+## Quick Start
 
-- `main` 继续沿用你当前的 `/home/your-user/.openclaw/workspace`
-- 新角色用独立 workspace
-- `agentDir` 绝对不要共用
-- 共享工程文档放到 `/home/your-user/.openclaw/project-docs`
+### 1. Prepare OpenClaw and Feishu
 
-## 实施步骤
+Make sure you already have:
 
-### 1. 先做 Phase 1
+- a working OpenClaw gateway
+- a working Feishu channel
+- one bot identity that can receive and send messages
 
-把 `config/phase-1-single-visible-main.json5` 里的相关块合并到你当前的 `~/.openclaw/openclaw.json`。
+### 2. Apply Phase 1
 
-重点只动这些区域：
+Merge the relevant parts of:
+
+- `config/phase-1-single-visible-main.json5`
+
+into your existing `~/.openclaw/openclaw.json`.
+
+Do not overwrite your whole file. Only merge the relevant blocks such as:
 
 - `agents`
 - `bindings`
 - `session.agentToAgent`
 - `channels.feishu`
 
-不要把你现有的：
+### 3. Create role workspaces
 
-- `models`
-- `gateway`
-- `plugins`
-- `memorySearch`
+Copy the role templates under `workspaces/` into your OpenClaw installation.
 
-整段覆盖掉。
-
-### 2. 创建新角色工作区
-
-把 `workspaces/architect`、`research`、`executor`、`operator`、`reviewer` 下的模板文件拷到 VM 对应目录。
-
-每个 workspace 至少要有：
+Each role should have its own:
 
 - `AGENTS.md`
 - `SOUL.md`
@@ -113,134 +204,112 @@
 - `MEMORY.md`
 - `memory/`
 
-`USER.md` 和 `MEMORY.md` 可以先用 `workspaces/common/` 下的模板。
+Never share the same `workspace` or `agentDir` between roles.
 
-### 3. 初始化共享文档链
+### 4. Initialize shared project docs
 
-把 `project-docs/templates/` 下的模板拷到：
+Copy the templates from `project-docs/templates/` into:
 
-- `/home/your-user/.openclaw/project-docs/PROJECT_CONTEXT.md`
-- `/home/your-user/.openclaw/project-docs/PRD.md`
-- `/home/your-user/.openclaw/project-docs/ARCHITECTURE.md`
-- `/home/your-user/.openclaw/project-docs/adr/`
-- `/home/your-user/.openclaw/project-docs/epics/`
-- `/home/your-user/.openclaw/project-docs/stories/`
+- `~/.openclaw/project-docs/PROJECT_CONTEXT.md`
+- `~/.openclaw/project-docs/PRD.md`
+- `~/.openclaw/project-docs/ARCHITECTURE.md`
+- `~/.openclaw/project-docs/adr/`
+- `~/.openclaw/project-docs/epics/`
+- `~/.openclaw/project-docs/stories/`
 
-建议至少先写完：
+At minimum, fill out:
 
 - `PROJECT_CONTEXT.md`
 - `ARCHITECTURE.md`
 
-这是让多角色不打架的关键。
+before asking multiple agents to collaborate on real execution.
 
-### 4. 先只让 main 对外
+### 5. Test the coordinator path
 
-在飞书群里只保留一个 bot 身份：
+In Feishu:
 
-- 人只 `@main`
-- `main` 内部派工
-- `main` 汇总结论
+- mention `main`
+- ask for a simple task
+- confirm the route is correct
+- then ask for a task that requires delegation
 
-### 5. 跑稳后再做 Phase 2
+### 6. Upgrade to Phase 2 if needed
 
-给 `executor` 和 `reviewer` 各自再申请一个飞书应用和 bot 身份，然后合并 `config/phase-2-main-executor-reviewer.json5` 的账号和绑定思路。
+Only after Phase 1 is stable, add more visible bot identities and merge:
 
-## 群聊行为规则
+- `config/phase-2-main-executor-reviewer.json5`
 
-先看这里：
+## Shared Docs Chain
 
-- `protocols/FEISHU_GROUP_PROTOCOL.md`
-
-这份协议是整套多角色能不能稳住的关键。
-
-核心只有几条：
-
-- 人默认只 `@main`
-- worker 只接 main 的派单，或者只在被直接 `@` 时发言
-- worker 不互相聊天
-- 结案只由 `main` 发 `[FINAL]`
-- `maxPingPongTurns = 0`
-
-## BMAD 风格的共享文档链
-
-这里借的是 BMAD 的精华，不是整套运行时。
-
-推荐链路：
+The shared docs chain is the most important non-runtime part of this repository:
 
 1. `PROJECT_CONTEXT.md`
 2. `PRD.md`
 3. `ARCHITECTURE.md`
 4. `adr/ADR-xxxx-*.md`
-5. `epics/*.md`
+5. `epics/EPIC-*.md`
 6. `stories/STORY-*.md`
-7. 执行和审查记录写回 story
 
-作用：
+Why it matters:
 
-- `PROJECT_CONTEXT.md`
-  约束全局规则，减少角色各自发明规范
-- `PRD.md`
-  约束目标和边界
-- `ARCHITECTURE.md`
-  约束实现方式
-- `ADR`
-  固化关键取舍，避免角色分叉
-- `story`
-  让执行和审查围绕同一张任务卡工作
+- `PROJECT_CONTEXT.md` keeps all roles on the same baseline
+- `PRD.md` defines what should be built
+- `ARCHITECTURE.md` defines how it should be built
+- `ADR` records high-impact decisions
+- `story` gives execution and review a shared unit of work
 
-## 你当前环境的建议映射
+## Feishu Group Rules
 
-- `main`
-  继续用你当前的飞书 bot 和现有 workspace
-- `architect`
-  负责架构方案、边界、ADR、跨角色一致性
-- `executor`
-  负责代码、命令、部署、VM、配置修改
-- `operator`
-  负责浏览器、桌面、页面点选、前台 UI 自动化
-- `reviewer`
-  负责测试、验收、风险扫描
-- `research`
-  负责资料、文档、方案收敛
+The group protocol is intentionally strict:
 
-## 关键原则
+- humans normally talk to `main`
+- workers do not free-chat with each other
+- final answers come from `main`
+- specialist bots should require mention
+- agent-to-agent ping-pong should be disabled
 
-- 路由和身份是两回事
-- 多角色不等于多 bot 自由群聊
-- 能内部协作就不要先做外部群聊演出
-- 每个角色独立 workspace
-- 每个角色独立 `agentDir`
-- 每个角色共享同一套 `project-docs`
-- 先稳，再花
+See: [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
 
-## 上线检查清单
+## Design Principles
 
-- `openclaw agents list --bindings`
-- `openclaw gateway status`
-- `openclaw logs --follow`
-- 飞书群只允许目标群 `chat_id`
-- 飞书群先开启 `requireMention: true`
-- 群成员 sender allowlist 先只放你自己
-- 发一次 `@main` 简单任务，确认路由正常
-- 发一次需要派工的任务，确认 main 会调用子角色
+- Routing and identity are different problems
+- One stable coordinator is better than many noisy visible bots
+- Internal collaboration should come before visible multi-bot theatrics
+- Shared docs beat hidden chat memory
+- High-conflict decisions belong in ADRs
+- Every role needs its own workspace and `agentDir`
 
-## 可见多 bot 的现实代价
+## Current Scope
 
-如果你要让多个角色在同一个飞书群里显示成不同身份，需要：
+This repository currently provides:
 
-- 一个角色一个飞书应用
-- 一个应用一个 `accountId`
-- 一个 `accountId` 一个对应 `agentId`
+- config skeletons
+- role workspace templates
+- shared project doc templates
+- a Feishu group protocol
+- a BMAD-to-OpenClaw operating model
 
-只换 prompt，不会自动变成不同可见身份。
+This repository does not yet provide:
 
-## 下一步
+- a one-click installer
+- automated patch/merge scripts for `openclaw.json`
+- a complete deployment script for a fresh VM
 
-如果你决定开始实装，建议先按下面顺序：
+## Recommended Next Steps
 
-1. 备份当前 `openclaw.json`
-2. 上 Phase 1
-3. 创建五个新 workspace
-4. 初始化 `project-docs`
-5. 测试内部派工
-6. 再上 Phase 2 的可见 bot
+If you want to turn this into a more complete public project, the next most valuable additions are:
+
+1. A safe config merge script for `openclaw.json`
+2. A bootstrap script that creates role workspaces and `project-docs`
+3. One real example project under `examples/`
+4. Validation commands or smoke tests for Feishu routing
+
+## Related Files
+
+- [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
+- [project-docs/README.md](project-docs/README.md)
+- [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
+
+## License
+
+No project-specific license file has been added yet. Add one before encouraging broad reuse.
