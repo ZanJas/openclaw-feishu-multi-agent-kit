@@ -130,6 +130,10 @@ More detail: [docs/BMAD_TO_OPENCLAW.md](docs/BMAD_TO_OPENCLAW.md)
 │       └── stories/
 ├── protocols/
 │   └── FEISHU_GROUP_PROTOCOL.md
+├── scripts/
+│   ├── bootstrap-openclaw-feishu-team.sh
+│   ├── render-phase1-config.sh
+│   └── README.md
 └── workspaces/
     ├── architect/
     ├── common/
@@ -195,6 +199,12 @@ Do not overwrite your whole file. Only merge the relevant blocks such as:
 - `session.agentToAgent`
 - `channels.feishu`
 
+If you want a machine-specific starter file first, you can render one with:
+
+```bash
+bash ./scripts/render-phase1-config.sh --target-root "$HOME/.openclaw"
+```
+
 ### 3. Create role workspaces
 
 Copy the role templates under `workspaces/` into your OpenClaw installation.
@@ -209,6 +219,12 @@ Each role should have its own:
 - `memory/`
 
 Never share the same `workspace` or `agentDir` between roles.
+
+To bootstrap the layout automatically:
+
+```bash
+bash ./scripts/bootstrap-openclaw-feishu-team.sh --target-root "$HOME/.openclaw"
+```
 
 ### 4. Initialize shared project docs
 
@@ -292,10 +308,10 @@ This repository currently provides:
 - shared project doc templates
 - a Feishu group protocol
 - a BMAD-to-OpenClaw operating model
+- bootstrap and config-render scripts
 
 This repository does not yet provide:
 
-- a one-click installer
 - automated patch/merge scripts for `openclaw.json`
 - a complete deployment script for a fresh VM
 
@@ -304,9 +320,9 @@ This repository does not yet provide:
 If you want to turn this into a more complete public project, the next most valuable additions are:
 
 1. A safe config merge script for `openclaw.json`
-2. A bootstrap script that creates role workspaces and `project-docs`
-3. One real example project under `examples/`
-4. Validation commands or smoke tests for Feishu routing
+2. One real example project under `examples/`
+3. Validation commands or smoke tests for Feishu routing
+4. Screenshots or diagrams for the public landing page
 
 ## Related Files
 
@@ -315,6 +331,7 @@ If you want to turn this into a more complete public project, the next most valu
 - [examples/README.md](examples/README.md)
 - [project-docs/README.md](project-docs/README.md)
 - [protocols/FEISHU_GROUP_PROTOCOL.md](protocols/FEISHU_GROUP_PROTOCOL.md)
+- [scripts/README.md](scripts/README.md)
 
 ## License
 
